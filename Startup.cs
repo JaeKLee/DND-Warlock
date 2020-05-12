@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using DND_Warlock.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace DND_Warlock
 {
@@ -24,6 +26,9 @@ namespace DND_Warlock
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+
+            services.AddDbContext<DND_WarlockContext>(options =>
+                options.UseSqlite(Configuration.GetConnectionString("MovieContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
