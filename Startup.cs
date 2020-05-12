@@ -15,28 +15,37 @@ namespace DND_Warlock
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
+            Envrionment = env;
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Envrionment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            if (Envrionment.IsDevelopment()) {
+                services.AddDbContext<DND_WarlockContext>(options =>
+                    options.UseSqlite(Configuration.GetConnectionString("MovieContext")));
+            }
+            else {
+                services.AddDbContext<DND_WarlockContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("MovieContext")));
+            }
             services.AddRazorPages();
-
-            services.AddDbContext<DND_WarlockContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("MovieContext")));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-            if (env.IsDevelopment())
+            if (Envrionment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                // app.UseDatabaseErrorPage();
             }
             else
             {
