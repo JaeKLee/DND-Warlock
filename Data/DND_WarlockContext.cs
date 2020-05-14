@@ -7,6 +7,7 @@ namespace DND_Warlock.Data {
             : base(options) {
 
             }
+
         public DbSet<DND_Warlock.Models.Movie> Movie { get; set; }
     }
 }
