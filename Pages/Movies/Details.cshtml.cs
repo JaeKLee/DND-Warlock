@@ -22,7 +22,8 @@ namespace DND_Warlock.Pages.Movies
         public Movie Movie { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
-        {
+        {   
+
             if (id == null)
             {
                 return NotFound();
